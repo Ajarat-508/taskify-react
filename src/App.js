@@ -24,7 +24,7 @@ const [formError, setFormError] = useState({
 
 const [taskIdToEdit, setTaskIdToEdit] = useState(null);
   
-  console.log(process.env.REACT_APP_TASK_LOCAL_STORAGE_NAME);  
+
   const createTask =  (e) => {
     e.preventDefault();
     try {    
@@ -48,7 +48,7 @@ const [taskIdToEdit, setTaskIdToEdit] = useState(null);
         title: taskInput,
         date: Date.now(),
     };
-    // console.log(newtask)
+   
 
     // check if local storage is empty
     
@@ -134,38 +134,45 @@ function handleEditMode(id){
      setIsEditMode(false); // Show the Add button
    };
 
-  const editTask = () =>{
-   
-    if(!taskInput){
+   const editTask =  (e) => {
+    e.preventDefault();
+    try {
+      if (!taskInput) {
+        setFormError({
+          isError: true,
+          errorMessage: "Kindly enter a task title to edit",
+        });
+        setTimeout(() => {
+          setFormError({
+            isError: false,
+            errorMessage: null,
+          });
+        }, 2000);
+      } else {
+        const task_LS = getLocalStorage(tasks_ls_name);
+        const edited_task_LS = task_LS.map((task) => {
+          if (task.id === taskIdToEdit) {
+            return { ...task, title: taskInput };
+          } else {
+            return task;
+          }
+        });
+  
+         setLocalStorage(tasks_ls_name, edited_task_LS); // update Storage
+       fetchTask(); //  update UI operation
+        setTaskInput("");
+        setIsEditMode(false);
+      }
+    } catch (error) {
       setFormError({
         isError: true,
-        errorMessage: "Kindly Enter a task title to edit",
-      })
-      
-    } 
-
-    
-
-    const task_LS = getLocalStorage(tasks_ls_name);
-    const edited_task_LS = task_LS.map((task) => {
-        if(task.id === taskIdToEdit){
-    return{...task, title: taskInput };
-        } else{
-            return task;
-        }
-    });
-   
-   
+        errorMessage: error.message,
+      });
+    }
+  };
+  
 
    
-    setLocalStorage(tasks_ls_name, edited_task_LS); // Update Storage
-    fetchTask(); // Update UI
-    setTaskInput("");
-    setIsEditMode(false);
-    
-
-
-};
 
 // // Render tasks
 useEffect(() => {
@@ -198,8 +205,8 @@ useEffect(() => {
       <button className="bg-amber-500 rounded-lg
           hover:bg-amber-300 text-white
            text-sm font-bold px-2.5 py-2 w-[120px]"
-            onClick={() => editTask()} 
-            type="button" id="edit_task_btn">
+            onClick={editTask} 
+            type="submit">
         edit
       </button>
       {showCancelBtn && (
