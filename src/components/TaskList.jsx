@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 export const TaskList = (props) => {
   const {id, title, date, handleDeleteTask, handleEditMode} = props;
@@ -7,8 +8,8 @@ export const TaskList = (props) => {
   <div className="group flex justify-between
    items-center py-3 px-2.5
     bg-slate-100 rounded-lg hover:bg-slate-100">
-    <a href={`/${id}`}>
-     {title}</a>
+    <Link to={`/task/${id}`}>
+     {title}</Link>
     <section className="gap-1 hidden group-hover:flex">
       <button 
       

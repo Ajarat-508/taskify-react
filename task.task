@@ -1,3 +1,7 @@
 index Page(all todos)
 Preview Page(Dynamic rendering)
 utility (for helper functions)
+
+Routing
+1. Task DashBoard (/)
+View task Page (Dynamic /task/id)

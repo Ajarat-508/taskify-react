@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid'; // {v4 as uuid}
-import { getLocalStorage, setLocalStorage} 
-from './utility/local-storage';
-import './App.css';
-import { TaskLoader } from './components/TaskLoader';
-import { TaskList } from './components/TaskList';
-import { sortTasksByDate } from './utility/task';
-import { showConfirmModal } from './utility/showModal';
+
+import { getLocalStorage, setLocalStorage} from '../utility/local-storage';
+import { TaskLoader } from '../components/TaskLoader';
+import { TaskList } from '../components/TaskList';
+import { sortTasksByDate } from '../utility/task';
+import { showConfirmModal } from '../utility/showModal';
 
 
 
 const tasks_ls_name = process.env.REACT_APP_TASK_LOCAL_STORAGE_NAME
-function App() {
+function TodoDashboard() {
   const [showCancelBtn, setShowCancelBtn] = useState(false);
   const [isEditMode , setIsEditMode] = useState(false);
   const [loadingTasks, setLoadingTask] = useState(true);
@@ -273,4 +272,4 @@ useEffect(() => {
 }
 
 
-export default App;
+export default TodoDashboard;
